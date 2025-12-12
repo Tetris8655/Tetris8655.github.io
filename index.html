@@ -3,68 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Party Game</title>
+    <title>YOU WIN!</title>
     <style>
-        body {
+        * {
             margin: 0;
             padding: 0;
-            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
         }
-        
+
         .container {
-            text-align: center;
-            background: white;
-            padding: 50px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: popIn 0.5s ease-out;
+            max-width: 800px;
+            width: 90%;
+            padding: 20px;
+            animation: fadeInScale 1s ease-out;
         }
-        
-        @keyframes popIn {
+
+        .image-wrapper {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            animation: slideInRotate 1.2s ease-out;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            animation: imageZoom 1.5s ease-out;
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f44336;
+            position: absolute;
+            animation: confettiFall 3s linear infinite;
+        }
+
+        .confetti:nth-child(2n) { background: #2196F3; }
+        .confetti:nth-child(3n) { background: #4CAF50; }
+        .confetti:nth-child(4n) { background: #FFC107; }
+        .confetti:nth-child(5n) { background: #9C27B0; }
+
+        /* Animations */
+        @keyframes fadeInScale {
             0% {
-                transform: scale(0.5);
                 opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRotate {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(-10deg);
+            }
+            60% {
+                transform: translateY(10px) rotate(2deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotate(0);
+            }
+        }
+
+        @keyframes imageZoom {
+            0% {
+                transform: scale(1.3);
             }
             100% {
                 transform: scale(1);
-                opacity: 1;
             }
         }
-        
-        h1 {
-            font-size: 3em;
-            color: #667eea;
-            margin: 0;
-            animation: bounce 1s infinite;
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+        /* Glow effect */
+        .glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.3) 0%, transparent 70%);
+            animation: pulse 2s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
         }
-        
-        p {
-            font-size: 1.5em;
-            color: #333;
-            margin-top: 20px;
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.2;
+            }
         }
-        
-        .emoji {
-            font-size: 5em;
-            margin: 20px 0;
+
+        /* Sound wave effect */
+        .sound-wave {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: soundWave 2s ease-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes soundWave {
+            0% {
+                width: 100px;
+                height: 100px;
+                opacity: 1;
+            }
+            100% {
+                width: 800px;
+                height: 800px;
+                opacity: 0;
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="glow"></div>
+    <div class="sound-wave"></div>
+    <div class="sound-wave" style="animation-delay: 0.5s;"></div>
+    <div class="sound-wave" style="animation-delay: 1s;"></div>
+
     <div class="container">
-        <div class="emoji">🎉</div>
-        <h1>You Win a Point!</h1>
-        <p>Congratulations! 🏆</p>
+        <div class="image-wrapper">
+            <img src="./img/winwin.jpeg" 
+                 alt="YOU WIN! - The Resistance">
+        </div>
     </div>
+
+    <script>
+        if (navigator.vibrate) {
+            navigator.vibrate([200, 100, 200]);
+        }
+    </script>
 </body>
 </html>
